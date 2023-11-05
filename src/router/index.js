@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import cachier from './cachier';
+import ticket from './ticket';
+
+import HomeView from '@/views/HomeView.vue'
+import LoginView from '@/views/auth/LoginView.vue'
 import DashboardLayout from '@/layouts/dashboard/DashboardLayout'
 
 const routes = [
@@ -7,6 +11,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
   },
   {
     path: '/dashboard',
@@ -20,6 +29,8 @@ const routes = [
     ]
   },
 
+  ...cachier,
+  ...ticket
 ]
 
 const router = createRouter({

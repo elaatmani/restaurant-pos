@@ -3,16 +3,11 @@
     <v-main>
       <router-view/>
     </v-main>
+
+    <app-alert />
   </v-app>
 </template>
 
-<script>
-
-export default {
-  name: 'App',
-
-  data: () => ({
-    //
-  }),
-}
+<script setup>
+import AppAlert from '@/components/AppAlert'
 </script>
