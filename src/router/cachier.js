@@ -6,6 +6,8 @@ import TicketListView from '@/views/cachier/tickets/TicketListView';
 import MovementListView from '@/views/cachier/movements/MovementListView';
 import MovementCreateView from '@/views/cachier/movements/MovementCreateView';
 
+import CashRegisterListView from '@/views/cachier/cash-registers/CashRegisterListView'
+
 export default [
     {
         name: 'cachier-layout',
@@ -37,6 +39,13 @@ export default [
                 name: 'cachier.movements.create',
                 path: 'movements/create',
                 component: MovementCreateView
+            },
+
+
+            {
+                name: 'cachier.cash-registers',
+                path: 'cash-registers',
+                component: CashRegisterListView
             },
 
         ]

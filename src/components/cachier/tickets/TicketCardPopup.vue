@@ -41,9 +41,8 @@
                         <h1 class="tw-text-lg tw-font-semibold"><span>{{ item.menu_item.name }}</span> <span class="tw-text-emerald-500 tw-font-bold tw-ml-2">x {{ item.quantity }}</span></h1>
                         <h2 class="tw-text-gray-600 ">{{ item.item.name }}</h2>
                         <div class="tw-flex">
-                            <p v-if="!!item.note || true" class="tw-bg-amber-100 tw-max-w-full tw-px-2 tw-py-1 tw-mt-2 tw-text-sm tw-text-black tw-rounded-md">
-                                <!-- {{ item.note }} -->
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, sunt!
+                            <p v-if="!!item.note" class="tw-bg-amber-100 tw-max-w-full tw-px-2 tw-py-1 tw-mt-2 tw-text-sm tw-text-black tw-rounded-md">
+                                {{ item.note }}
                             </p>
                         </div>
                     </div>
@@ -54,7 +53,7 @@
         <div class="tw-flex-1"></div>
 
         <div
-          class="tw-p-5 tw-w-full tw-flex tw-justify-end tw-items-center tw-gap-5 tw-border-t"
+          class="tw-p-5 tw-w-full tw-flex tw-justify-end tw-items-center tw-gap-3 tw-border-t"
         >
           <button
             @click="emit('update:visible', false)"
@@ -63,6 +62,8 @@
           >
             Annuler
           </button>
+
+          <TicketPayment :ticket="props.ticket" @close="emit('update:visible', false)" />
         </div>
       </div>
     </div>
@@ -70,12 +71,11 @@
 </template>
 
 <script setup>
+import TicketPayment from "./TicketPayment.vue";
 import { defineProps, defineEmits } from "vue";
 
 const emit = defineEmits(["update:visible"]);
 const props = defineProps(["visible", "ticket"]);
-
-console.log(props.ticket);
 
 const types = {
   1: { icon: "grommet-icons:cafeteria", color: "tw-bg-green-500" },

@@ -3,10 +3,7 @@
 
         <ticket-cancel />
 
-        <button class="tw-py-1 tw-px-0 tw-gap-1 tw-border-solid tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-bg-gray-50 tw-duration-200">
-            <icon class="tw-text-gray-500 tw-text-2xl" icon="mingcute:transfer-fill" />
-            <span class="tw-text-xs">Transfére de table</span>
-        </button>
+        <ticket-table />
 
         <button class="tw-py-1 tw-px-0 tw-gap-1 tw-border-solid tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-bg-gray-50 tw-duration-200">
             <icon class="tw-text-orange-500 tw-text-2xl" icon="entypo:bell" />
@@ -22,14 +19,16 @@
 
 <script setup>
 import TicketCancel from './TicketCancel.vue';
+import TicketTable from './TicketTable.vue';
 import useTicketStore from '@/stores/ticketStore'
 import useAlertStore from '@/stores/alertStore'
+import { PREPARING } from '@/core/ticket';
 
 const ticketStore = useTicketStore();
 const { toggle: $alert } = useAlertStore();
 
 const prepare = () => {
-    ticketStore.addTicket(ticketStore.currentTicket);
+    ticketStore.addTicket({...ticketStore.currentTicket, status: PREPARING, id: Date.now()});
     ticketStore.emptyCurrentTicket();
 
     $alert({

@@ -2,14 +2,38 @@
   <div class="tw-h-full tw-min-h-[550px]">
     <div class="tw-p-5 tw-bg-gray-50 tw-h-full">
       <div
-        class="tw-bg-white tw-p-5 tw-rounded-lg tw-shadow tw-w-full tw-h-full"
+        class="tw-bg-white  tw-rounded-lg tw-shadow tw-w-full tw-h-full"
       >
-        <div class="tw-flex tw-items-center tw-justify-between">
-          <h1 class="tw-font-bold tw-text-gray-600">Liste Tickets</h1>
+        <div class="tw-flex tw-p-2 tw-items-center tw-justify-between tw-border-b">
+          <div class="tw-flex tw-flex-wrap tw-gap-2">
+            <button
+              @click="filters.tab = 'today'"
+              :class="filters.tab == 'today' && 'tw-bg-primary-500 tw-border-primary-300 tw-text-white'"
+              class="tw-px-4 tw-py-1 tw-text-sm tw-rounded-md tw-border tw-border-solid tw-font-medium tw-duration-200"
+              >
+              Aujourd'hui
+            </button>
+
+            <button
+            :class="filters.tab == 'not-paid' && 'tw-bg-primary-500 tw-border-primary-300 tw-text-white'"
+            @click="filters.tab = 'not-paid'"
+            class="tw-px-4 tw-py-1 tw-text-sm tw-rounded-md tw-border tw-border-solid tw-font-medium tw-duration-200"
+            >
+              Non Payé
+            </button>
+
+            <button
+            :class="filters.tab == 'paid' && 'tw-bg-primary-500 tw-border-primary-300 tw-text-white'"
+            @click="filters.tab = 'paid'"
+              class="tw-px-4 tw-py-1 tw-text-sm tw-rounded-md tw-border tw-border-solid tw-font-medium tw-duration-200"
+            >
+              Completé
+            </button>
+          </div>
           <ticket-filter v-model:filters="filters" />
         </div>
 
-        <div class="tw-grid tw-grid-cols-12 tw-mt-5 tw-gap-5">
+        <div class="tw-grid tw-grid-cols-12 tw-gap-5 tw-p-5">
             <template v-if="filteredTickets.length">
               <div  v-for="ticket in filteredTickets" :key="ticket" class="lg:tw-col-span-3 md:tw-col-span-4 sm:tw-col-span-6 tw-col-span-12 ">
                   <TicketCard :ticket="ticket" />
@@ -34,7 +58,9 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 
 const { tickets } = storeToRefs(useTicketStore());
+
 const filters = ref({
+  tab: 'today', // 'not-paid' | 'paid';
   type: "all"
 });
 

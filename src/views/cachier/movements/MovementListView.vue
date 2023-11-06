@@ -19,7 +19,7 @@
 
         <div class="tw-mt-5">
             <template v-if="movements.length">
-                <movements-table />
+                <movements-table :movements="movements" />
             </template>
             <template v-else>
                 <div class="tw-p-16 tw-col-span-12 tw-bg-gray-50 tw-rounded-md">
@@ -34,7 +34,7 @@
   
   <script setup>
 import MovementsTable from "@/components/cachier/movements/MovementsTable";
-import useMovementStore from '@/stores/movementStore';
+import useMovementStore from '@/stores/cachier/movementStore';
 import { storeToRefs } from "pinia";
 
 const store = useMovementStore();

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <button @click="visible = true" class="tw-p-2 tw-px-4 tw-rounded-md tw-border tw-border-solid tw-flex tw-items-center tw-gap-2">
-        <icon class="tw-text-lg" icon="fluent:filter-16-filled" />
+    <button @click="visible = true" class="tw-py-1 tw-px-4 tw-rounded-md tw-border tw-border-solid tw-flex tw-items-center tw-gap-2">
+        <icon class="tw-text-md" icon="fluent:filter-16-filled" />
         <span class="tw-text-sm tw-font-semibold">Filter</span>
     </button>
     
