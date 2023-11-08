@@ -1,9 +1,15 @@
 import { defineStore } from 'pinia';
-import { NEW_TICKET } from '@/core/ticket';
+// import { NEW_TICKET } from '@/core/ticket';
 
 export default defineStore('ticketStore', {
     state: () => ({
-        currentTicket: NEW_TICKET,
+        currentTicket: {
+            items: [],
+            client: {},
+            table: null,
+            type: 1,
+            status: 'new'
+        },
         tickets: [],
     }),
 
@@ -28,7 +34,13 @@ export default defineStore('ticketStore', {
         },
 
         emptyCurrentTicket() {
-            this.currentTicket = NEW_TICKET
+            this.currentTicket = {
+                items: [],
+                client: {},
+                table: null,
+                type: 1,
+                status: 'new'
+            }
         }
     }
 });

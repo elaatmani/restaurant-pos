@@ -28,7 +28,7 @@ const ticketStore = useTicketStore();
 const { toggle: $alert } = useAlertStore();
 
 const prepare = () => {
-    ticketStore.addTicket({...ticketStore.currentTicket, status: PREPARING, id: Date.now()});
+    ticketStore.addTicket({...ticketStore.currentTicket, status: PREPARING});
     ticketStore.emptyCurrentTicket();
 
     $alert({
