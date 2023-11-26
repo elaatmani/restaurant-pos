@@ -16,7 +16,7 @@
               </template>
               <template v-else>
                   <div class="tw-p-16 tw-col-span-12 tw-bg-gray-50 tw-rounded-md">
-                      <p class="tw-text-center tw-text-lg tw-text-gray-600 tw-font-semibold">Pas de Mouvements</p>
+                      <p class="tw-text-center tw-text-lg tw-text-gray-600 tw-font-semibold">Tableau est vide</p>
                   </div>
               </template>
           </div>

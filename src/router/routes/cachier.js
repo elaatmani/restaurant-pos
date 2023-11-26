@@ -14,7 +14,7 @@ export default [
         component: CachierLayout,
         path: '/cachier',
         meta: {
-
+            middleware: ['auth'],
         },
 
         children: [

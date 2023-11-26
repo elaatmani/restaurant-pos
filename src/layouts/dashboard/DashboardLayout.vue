@@ -1,23 +1,25 @@
 <template>
   <v-layout :full-height="true" class="rounded rounded-md">
-    <v-app-bar elevation="0" class="border-b" title="Application bar"></v-app-bar>
 
-    <v-navigation-drawer>
-      <v-list>
-        <v-list-item title="Navigation drawer"></v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+    <DashboardSidebar v-model:drawer="drawer" />
+    
+    <DashboardHeader v-model:drawer="drawer" />
 
-    <v-main class="d-flex align-center justify-center">
+
+    <v-main class="">
       <router-view></router-view>
     </v-main>
   </v-layout>
 </template>
 
-<script>
-export default {
+<script setup>
+import DashboardHeader from './partials/DashboardHeader';
+import DashboardSidebar from './partials/DashboardSidebar';
+import { ref } from 'vue';
 
-}
+const drawer = ref(true);
+
+
 </script>
 
 <style>

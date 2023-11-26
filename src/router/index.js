@@ -1,10 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import cachier from './cachier';
-import ticket from './ticket';
+import cachier from './routes/cachier';
+import ticket from './routes/ticket';
+import dashboard from './routes/dashboard';
 
-import HomeView from '@/views/HomeView.vue'
-import LoginView from '@/views/auth/LoginView.vue'
-import DashboardLayout from '@/layouts/dashboard/DashboardLayout'
+// middleware
+import authMiddleware from './middleware/auth.middleware';
+
+import HomeView from '@/views/HomeView.vue';
+import LoginView from '@/views/auth/LoginView.vue';
 
 const routes = [
   {
@@ -15,20 +18,12 @@ const routes = [
   {
     path: '/login',
     name: 'login',
+    meta: {
+      middleware: ['auth'],
+    },
     component: LoginView
   },
-  {
-    path: '/dashboard',
-    component: DashboardLayout,
-    children: [
-      {
-        name: 'dashboard',
-        path: '',
-        component: HomeView
-      }
-    ]
-  },
-
+  ...dashboard,
   ...cachier,
   ...ticket
 ]
@@ -36,6 +31,8 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
+
+router.beforeEach(authMiddleware)
 
 export default router

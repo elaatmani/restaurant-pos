@@ -4,7 +4,7 @@
     
     <button
       @click="visible = true"
-      class="tw-block tw-w-full tw-border-solid tw-relative tw-p-4 tw-border tw-rounded-md tw-bg-white tw-duration-200 hover:tw-shadow-md tw-cursor-pointer"
+      class="tw-block tw-w-full tw-border-solid tw-border-gray-200 tw-relative tw-p-4 tw-border tw-rounded-md tw-bg-white tw-duration-200 hover:tw-shadow-md tw-cursor-pointer"
     >
       <div
         class="tw-absolute tw-right-0 tw-top-0 tw-rounded-tr-md tw-p-1 tw-rounded-bl-lg"

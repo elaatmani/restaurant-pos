@@ -1,94 +1,68 @@
 <template>
-    <div v-if="visible">
-        <teleport to="body">
-            <div>
-                <div
-                ref="popup"
-                class="
-                    tw-fixed tw-top-0 tw-left-0 tw-z-[50999] tw-right-0 tw-bottom-0
-                    tw-flex tw-items-center tw-justify-center
-                "
-                >
-                
-                <v-fade-transition>
-                        <div
-                            v-if="showContent"
-                            @click.self="resolve(false)"
-                            :style="{'z-index': index}"
-                            class="tw-w-full md:tw-min-w-[300px] !tw-overflow-auto !tw-max-h-screen"
-                        >
-                            <slot></slot>
-                            
-                        </div>
-                </v-fade-transition>
-
-                <div
-                    @click="resolve(false)"
-                    class="
-                    tw-duration-300
-                    tw-absolute
-                    tw-top-0
-                    tw-left-0
-                    tw-w-full
-                    tw-h-full
-                    
-                    tw-backdrop-blur-sm
-                    tw-bg-black/20
-                    tw-opacity-0
-                    "
-                    :class="{'!tw-opacity-100': visible}"
-                ></div>
+    <!-- <div> -->
+    <teleport to="body">
+        <transition class="tw-duration-200" enter-from-class="tw-opacity-0" leave-to-class="tw-opacity-0">
+            <div v-if="showContent" ref="popup"
+                class="tw-fixed tw-top-0 tw-left-0 tw-z-[50999] tw-right-0 tw-bottom-0 tw-flex tw-items-center tw-justify-center">
+                <div v-if="showContent" @click.self="resolve(false)" :style="{ 'z-index': index }"
+                    class="tw-w-full md:tw-min-w-[300px] !tw-overflow-auto !tw-max-h-screen">
+                    <div class="z-10"></div>
+                    <slot></slot>
                 </div>
-            </div>
-        </teleport>
-    </div>
-</template>
 
+                <div @click="resolve(false)" class="tw-duration-300 tw-absolute tw-top-0 tw-left-0 tw-w-full tw-h-full tw-bg-black/50 tw-opacity-0"
+                    :class="{ '!tw-opacity-100': visible }"></div>
+            </div>
+        </transition>
+    </teleport>
+    <!-- </div> -->
+</template>
+  
 <script>
 export default {
+    emits: ['cancel'],
     props: {
         visible: {
             required: true,
-            default: false
+            default: false,
         },
         closeable: {
             required: false,
-            default: true
+            default: true,
         },
         zIndex: {
             required: false,
-            default: 0
-        }
+            default: 1,
+        },
     },
     data() {
         return {
             showContent: false,
-            defaultIndex: 50999
+            defaultIndex: 50999,
         };
     },
 
     computed: {
         index() {
-            return this.zIndex + this.defaultIndex
-        }
+            return this.zIndex + this.defaultIndex;
+        },
     },
 
     watch: {
         visible(value) {
-            if(!value) {
+            if (!value) {
                 this.showContent = value;
-            }
-            else {
+            } else {
                 setTimeout(() => {
                     this.showContent = value;
-                }, 0)
+                }, 0);
             }
         },
     },
     methods: {
         resolve(value) {
-            if(this.closeable) {
-                this.$emit("cancel", value);
+            if (this.closeable) {
+                this.$emit('cancel', value);
             }
         },
     },
@@ -97,11 +71,9 @@ export default {
         this.showContent = this.visible;
     },
 
-    unmounted() {
-
-    }
+    unmounted() { },
 };
 </script>
-
-<style>
-</style>
+  
+<style></style>
+  

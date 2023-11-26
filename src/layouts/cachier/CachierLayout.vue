@@ -5,6 +5,7 @@
 
     <cachier-layout-header v-model:drawer="drawer" />
 
+    <cash-register-new-entry />
 
     <v-main>
       <router-view></router-view>
@@ -15,6 +16,7 @@
 <script setup>
 import CachierLayoutSidebar from './partials/CachierLayoutSidebar';
 import CachierLayoutHeader from './partials/CachierLayoutHeader';
+import CashRegisterNewEntry from '@/components/cachier/cash-registers/CashRegisterNewEntry';
 import { ref } from 'vue';
 
 const drawer = ref(true);

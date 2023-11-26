@@ -4,12 +4,12 @@
       <div
         class="tw-bg-white  tw-rounded-lg tw-shadow tw-w-full tw-h-full"
       >
-        <div class="tw-flex tw-p-2 tw-items-center tw-justify-between tw-border-b">
+        <div class="tw-flex tw-p-2 tw-items-center tw-justify-between tw-border-b tw-border-gray-200">
           <div class="tw-flex tw-flex-wrap tw-gap-2">
             <button
               @click="filters.tab = 'today'"
               :class="filters.tab == 'today' && 'tw-bg-primary-500 tw-border-primary-300 tw-text-white'"
-              class="tw-px-4 tw-py-1 tw-text-sm tw-rounded-md tw-border tw-border-solid tw-font-medium tw-duration-200"
+              class="tw-px-4 tw-py-1 tw-text-sm tw-rounded-md tw-border tw-border-gray-200 tw-border-solid tw-font-medium tw-duration-200"
               >
               Aujourd'hui
             </button>
@@ -17,7 +17,7 @@
             <button
             :class="filters.tab == 'not-paid' && 'tw-bg-primary-500 tw-border-primary-300 tw-text-white'"
             @click="filters.tab = 'not-paid'"
-            class="tw-px-4 tw-py-1 tw-text-sm tw-rounded-md tw-border tw-border-solid tw-font-medium tw-duration-200"
+            class="tw-px-4 tw-py-1 tw-text-sm tw-rounded-md tw-border tw-border-gray-200 tw-border-solid tw-font-medium tw-duration-200"
             >
               Non Payé
             </button>
@@ -25,7 +25,7 @@
             <button
             :class="filters.tab == 'paid' && 'tw-bg-primary-500 tw-border-primary-300 tw-text-white'"
             @click="filters.tab = 'paid'"
-              class="tw-px-4 tw-py-1 tw-text-sm tw-rounded-md tw-border tw-border-solid tw-font-medium tw-duration-200"
+              class="tw-px-4 tw-py-1 tw-text-sm tw-rounded-md tw-border tw-border-gray-200 tw-border-solid tw-font-medium tw-duration-200"
             >
               Completé
             </button>

@@ -1,4 +1,5 @@
 import Login from "@/api/auth/Login";
+import useAuthStore from "@/stores/authStore";
 
 
 export const login = (app) => {
@@ -11,19 +12,20 @@ export const login = (app) => {
 
     app.loading = true
     Login.login(user)
-    .then(data => success(data, app), error => fails(error, app))
+    .then(data => success(data, app))
+    .catch(error => fails(error, app))
     .finally(() => app.loading = false)
 }
 
 
-const success = ({data}, app) => {
+const success = (res, app) => {
+    console.log(res)
+    const data = res.data;
     if(data.status != 200) return false;
-
+    const authStore = useAuthStore();
     const user = data.result;
-
-    app.$store.dispatch('auth/login', user);
-    app.$router.push({name: 'index'});
-    console.log('Logged in');
+    authStore.setUser(user, true);
+    app.$router.push({name: 'cachier.index'});
 }
 
 

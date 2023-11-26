@@ -2,27 +2,46 @@ import { defineStore } from 'pinia';
 
 export default defineStore('alertStore', {
     state: () => ({
-        active: false,
-        alert: {
-            type: 'success',
-            body: 'Hello body'
-        }
+        alerts: [],
+
+        interval: null
     }),
 
-    // getters: {
-    //     state: (state) => state
-    // },
+    getters: {},
 
     actions: {
-        toggle(payload){
-            this.alert = payload;
-            this.active = true;
+        toggle(type, message) {
+            this.alerts.push({
+                id: Date.now(),
+                type,
+                message,
+            });
+            this.resive(6);
+            this.clearAlerts();
+        },
 
-            setTimeout(() => {
-                this.active = false
-            }, 4500)
+
+        clearAlerts() {
+            clearInterval(this.interval);
+            this.interval = setInterval(() => {
+                this.alerts.shift();
+                if(this.alerts.length == 0) {
+                    clearInterval(this.interval)
+                }
+            }, 5000);
+        },
+
+        resive(length) {
+            if(this.alerts.length > length) {
+                this.alerts = this.alerts.slice(this.alerts.length - length);
+            }
 
         },
-    },
 
+        setAlerts(value) {
+            this.alerts = value;
+        },
+
+
+    }
 });
