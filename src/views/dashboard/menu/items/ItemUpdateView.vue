@@ -1,7 +1,11 @@
 <template>
     <div class="tw-p-2 tw-bg-gray-100 tw-min-h-[calc(100vh-80px)]">
-        <div class="tw-p-4 tw-bg-white">
-            <h1 class="tw-text-lg tw-font-bold tw-text-gray-600">Ajouter un élément</h1>
+        <div v-if="isFetchingItem" class="tw-min-h-[calc(100vh-80px)] tw-w-full tw-flex tw-items-center tw-justify-center tw-bg-white">
+            <icon class="tw-text-primary-500 tw-text-3xl" icon="line-md:loading-twotone-loop" />
+        </div>
+
+        <div v-else class="tw-p-4 tw-bg-white">
+            <h1 class="tw-text-lg tw-font-bold tw-text-gray-600">Modifier un élément</h1>
 
             <div class="tw-grid tw-gap-4 sm:tw-grid-cols-2 sm:tw-gap-4 tw-mt-5">
 
@@ -67,7 +71,7 @@
                     >
                     <select
                     v-model="item.menu"
-                    :disabled="isFetching"
+                    :disabled="isFetchingMenus"
                     id="unit"
                     class="tw-bg-gray-50 tw-border tw-border-solid focus:tw-outline-none tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-primary-600 focus:tw-border-primary-600 tw-block tw-w-full tw-p-2.5 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Unité"
@@ -129,7 +133,7 @@
                 </div>
 
                 <div class="tw-mt-5">
-                    <vue-datatable :key="item.item_variations.length" :columns="variationColumns" :rows="item.item_variations">
+                    <vue-datatable :key="item.item_variations?.length" :columns="variationColumns" :rows="item.item_variations">
                         <template #actions="data">
                             <ItemVariationActions @update="handleVariationUpdate" @delete="handleVariationDelete" :key="data.value" :data="data.value" />
                         </template>
@@ -145,13 +149,13 @@
                         </button>
 
                         <button type="button"
-                            @click="create"
+                            @click="update"
                             :disabled="isLoading"
                             class="tw-text-white tw-flex tw-items-center tw-justify-center tw-bg-primary-700 hover:tw-bg-primary-800 focus:tw-ring-4 focus:tw-ring-primary-300 tw-font-medium tw-rounded-lg tw-text-sm tw-px-5 tw-py-2.5 dark:tw-bg-primary-600 dark:hover:tw-bg-primary-700 focus:tw-outline-none dark:focus:tw-ring-primary-800"
                             >
                             <icon v-if="isLoading" icon="line-md:loading-twotone-loop" class="tw-absolute tw-text-xl" />
                             <span :class="[isLoading && 'tw-invisible']">
-                                Ajouter
+                                Modifier
                             </span>
                         </button>
                     </div>
@@ -168,15 +172,11 @@ import Menu from '@/api/dashboard/Menu'
 import useMenuStore from '@/stores/dashboard/menuStore';
 import ItemVariationActions from '@/components/dashboard/menu/items/variations/ItemVariationActions'
 import useAlert from '@/composables/useAlert';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
-const item = reactive({
-    item_name: '',
-    item_description: '',
-    unit: '',
-    menu: '',
-    item_variations: []
-});
+const route = useRoute();
+const item = reactive({});
+const id = route.params.id;
 
 const variation = reactive({
     item_size: '',
@@ -192,22 +192,23 @@ const variationColumns = [
 
 const menuStore = useMenuStore();
 const isLoading = ref(false)
-const isFetching = ref(false);
+const isFetchingMenus = ref(false);
+const isFetchingItem = ref(false);
 const router = useRouter();
 const menus = computed(() => menuStore.menus)
 const errors = reactive({});
 
 
-const create = async () => {
+const update = async () => {
     Object.keys(errors).forEach(key => {
         delete errors[key];
     })
     isLoading.value = true;
-    await Item.create(item)
+    await Item.update(id, item)
     .then(
         res => {
             if(res.data.status == 200) {
-                useAlert('Elément est bien ajouté!')
+                useAlert('Elément est bien modifié!')
                 router.push({ name: 'dashboard.menu' })
             }
         },
@@ -222,6 +223,20 @@ const create = async () => {
     )
     isLoading.value = false;
 
+}
+
+const getItem = async () => {
+    isFetchingItem.value = true;
+    await Item.get(id)
+    .then(
+        res => {
+            if(res.data.status == 200) {
+                Object.assign(item, res.data.result)
+                item.menu = item.menu_id;
+            }
+        }
+    );
+    isFetchingItem.value = false;
 }
 
 const addVariation = () => {
@@ -243,11 +258,11 @@ const handleVariationUpdate = (variation) => {
 
 const getMenus = async () => {
     if(menuStore.isMenusFetched) {
-        isFetching.value = false;
+        isFetchingMenus.value = false;
         return false;
     }
 
-    isFetching.value = true;
+    isFetchingMenus.value = true;
     await Menu.menus()
     .then(
         res => {
@@ -261,11 +276,12 @@ const getMenus = async () => {
             console.log(err)
         }
     )
-    isFetching.value = false;
+    isFetchingMenus.value = false;
 
 }
 
 
 getMenus();
+getItem();
 
 </script>

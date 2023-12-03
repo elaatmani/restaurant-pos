@@ -10,12 +10,17 @@ class Item {
 
     async update(id, item) {
         await Csrf.getCookie();
-        return ApiForm.patch('/api/items/' + id, item);
+        return ApiForm.put('/api/items/' + id, item);
     }
     
     async items() {
         await Csrf.getCookie();
         return Api.get('/api/items');
+    }
+
+    async get(id) {
+        await Csrf.getCookie();
+        return Api.get('/api/items/' + id);
     }
 
     async delete(id) {

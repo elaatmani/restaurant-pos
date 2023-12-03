@@ -10,8 +10,11 @@
             <div v-if="isActive">
 
                 <div @click="isActive = false"
-                    class="tw-w-[150px] tw-h-[200px] tw-absolute tw-right-0 -tw-bottom-1 tw-translate-y-full tw-bg-white tw-rounded-lg tw-border tw-border-b-2">
-
+                    class="tw-w-[150px] tw-absolute tw-right-0 -tw-bottom-1 tw-py-1 tw-translate-y-full tw-bg-white tw-rounded-lg tw-border tw-border-solid tw-border-gray-200 tw-border-b-2">
+                    <button @click="logout" class="tw-flex tw-items-center tw-gap-2 tw-text-red-600 tw-p-3 tw-py-2 tw-w-full hover:tw-bg-gray-100 tw-duration-200">
+                        <icon class="tw-text-xl" icon="ic:twotone-logout" />
+                        <span class="tw-text-sm">Logout</span>
+                    </button>
                 </div>
             </div>
         </transition>
@@ -21,11 +24,21 @@
 <script setup>
 import { ref } from "vue";
 import { onClickOutside } from '@vueuse/core';
+import useAuthStore from "@/stores/authStore";
+import { useRouter } from "vue-router";
 
 
 
 const isActive = ref(false);
 const container = ref(null);
+const router = useRouter();
+const authStore = useAuthStore();
+
+const logout = () => {
+    authStore.logout();
+    router.push({ name: 'login' })
+
+}
 
 onClickOutside(container, () => isActive.value = false);
 </script>

@@ -34,5 +34,13 @@ export default defineStore('dashboardMenuStore', {
         setItems(items) {
             this.items = items;
         },
+
+        deleteItem(id) {
+            this.items = this.items.filter(u => u.id != id);
+        },
+
+        updateItem(id, item) {
+            this.items = this.items.map(u => u.id == id ? item : u);
+        },
     }
 })

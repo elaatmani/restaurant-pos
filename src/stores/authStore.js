@@ -1,5 +1,6 @@
 import { getFromLocalStorage, saveInLocalStorage } from '@/utils/local-storage';
 import { defineStore } from 'pinia';
+import Cookies from 'js-cookie';
 
 const initialState = {
     isLoggedIn: getFromLocalStorage('isLoggedIn', false),
@@ -29,6 +30,8 @@ export default defineStore('authStore', {
         logout() {
             this.setUser(null, false);
             this.setIsCashRegisterFilled(false);
+            Cookies.remove('XSRF-TOKEN')
+            Cookies.remove('laravel_session')
         },
 
         setSessionCheck(value) {
