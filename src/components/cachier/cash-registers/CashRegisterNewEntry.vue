@@ -142,9 +142,13 @@
                     <span class="tw-font-bold tw-text-lg tw-text-gray-700">{{ total }} MAD</span>
                 </div>
 
-                <button @click="confirm"
-                    class="tw-w-full tw-py-2 tw-px-4 tw-bg-primary-500 tw-uppercase tw-mt-2 tw-text-white tw-text-center">
-                    Valider
+                <button 
+                    :disabled="loading"
+                    @click="confirm"
+                    :class="[loading && '!tw-bg-primary-200 !tw-text-primary-500 tw-cursor-not-allowed']"
+                    class="tw-flex tw-items-center tw-justify-center tw-w-full tw-py-2 tw-px-4 tw-bg-primary-500 tw-uppercase tw-mt-2 tw-text-white tw-text-center">
+                    <icon v-if="loading" icon="line-md:loading-twotone-loop" class="tw-absolute tw-text-2xl" />
+                    <span :class="[loading && '!tw-invisible']">Valider</span>
                 </button>
             </div>
 
@@ -159,11 +163,13 @@ import useAuthStore from '@/stores/authStore';
 import useCashRegisterStore from '@/stores/cachier/cashRegisterStore';
 import useAlert from '@/composables/useAlert'
 import { totalUnits } from '@/utils/cash-register';
+import CashRegister from '@/api/cashier/CashRegister';
 
 const authStore = useAuthStore();
 const cashRegisterStore = useCashRegisterStore();
 
 const visible = ref(false);
+const loading = ref(false);
 const units = reactive({
     half: 0,
     one: 0,
@@ -178,11 +184,22 @@ const units = reactive({
 
 const total = computed(() => totalUnits(units));
 
-const confirm = () => {
-    authStore.setIsCashRegisterFilled(true);
-    cashRegisterStore.addNewEntry(units);
-    visible.value = false;
-    useAlert('Fond de caisse est ajouté avec success');
+const confirm = async () => {
+    loading.value = true;
+
+    await CashRegister.create({cash_units: units, register_type: 'in'})
+    .then(
+        res => {
+            if(res.data.status == 200) {
+                authStore.setIsCashRegisterFilled(true);
+                cashRegisterStore.addNewEntry(units);
+                visible.value = false;
+                useAlert('Fond de caisse est ajouté avec success');
+
+            }
+        }
+    );
+    loading.value = false;
 }
 
 onMounted(() => {

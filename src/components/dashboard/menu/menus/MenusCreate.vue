@@ -6,7 +6,7 @@
         <popup :closeable="!isLoading" :visible="visible" @cancel="cancel">
             <div
                 class="tw-relative tw-max-w-[450px] tw-p-5 tw-w-full tw-bg-white tw-rounded-md tw-mx-auto tw-border tw-border-solid tw-border-gray-400">
-                <h1 class="tw-text-lg tw-font-semibold tw-text-center">Ajouter un utilisateur</h1>
+                <h1 class="tw-text-lg tw-font-semibold tw-text-center">Ajouter une menu</h1>
 
                 <form action="#">
                     <div class="tw-grid tw-gap-4 sm:tw-grid-cols-2 sm:tw-gap-3">
@@ -16,7 +16,7 @@
                                 class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900 dark:tw-text-white">Nom</label>
                             <input type="text" v-model="menu.menu_name" id="menu_name"
                                 class="tw-bg-gray-50 tw-border tw-border-solid focus:tw-outline-none tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-primary-600 focus:tw-border-primary-600 tw-block tw-w-full tw-p-2.5 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Tapez le nom d'utilisateur" required="" />
+                                placeholder="Tapez le nom du menu" required="" />
                             <span v-if="errors.menu_name" class="tw-text-rose-500 tw-text-xs tw-font-semibold">{{ errors.menu_name }}</span>
 
                         </div>

@@ -157,9 +157,10 @@
                 @click="create"
                 :disabled="isLoading"
                 :loading="isLoading"
-                class="tw-border-solid tw-text-white tw-bg-primary-600 hover:tw-bg-primary-700 tw-duration-200 focus:tw-ring-4 focus:tw-ring-primary-300 tw-font-medium tw-rounded-md tw-text-sm tw-px-5 tw-py-2 dark:tw-bg-primary-600 dark:hover:tw-bg-primary-700 focus:tw-outline-none dark:focus:tw-ring-primary-800"
+                class="tw-border-solid tw-flex tw-items-center tw-justify-center tw-text-white tw-bg-primary-600 hover:tw-bg-primary-700 tw-duration-200 focus:tw-ring-4 focus:tw-ring-primary-300 tw-font-medium tw-rounded-md tw-text-sm tw-px-5 tw-py-2 dark:tw-bg-primary-600 dark:hover:tw-bg-primary-700 focus:tw-outline-none dark:focus:tw-ring-primary-800"
               >
-                Ajouter
+              <icon icon="line-md:loading-twotone-loop" v-if="isLoading" class="tw-text-2xl tw-absolute" />
+                <span :class="[isLoading && 'tw-invisible']">Ajouter</span>
               </button>
             </div>
           </form>
@@ -170,11 +171,12 @@
 </template>
     
 <script setup>
-import useMovementStore from "@/stores/cachier/movementStore";
+// import useMovementStore from "@/stores/cachier/movementStore";
 import { ref } from "vue";
-import useAlertStore from '@/stores/alertStore'
+import CashMovement from "@/api/cashier/CashMovement";
+import useAlert from "@/composables/useAlert";
 
-const store = useMovementStore();
+// const store = useMovementStore();
 
 const isLoading = ref(false);
 const showImage = ref(false);
@@ -186,16 +188,31 @@ const image = ref(null);
 const imageFile = ref(null);
 
 const errors = ref({});
-const create = () => {
-  store.addMovement({
+const create = async () => {
+  const movement = {
     amount: amount.value,
-    description: description.value,
-    type: type.value,
-    image: image.value,
-    image_file: imageFile.value
-  });
+    mouvement_type: type.value,
+    mouvement_description: description.value,
+    image_url: imageFile.value
+  };
 
-  useAlertStore().toggle({type: 'success', body: 'Mouvement a été ajouté !'})
+  isLoading.value = true;
+  await CashMovement.create(movement)
+  .then(
+    res => {
+      console.log(res.data)
+      useAlert('Mouvement est été ajouté !');
+    }
+  )
+  // store.addMovement({
+  //   amount: amount.value,
+  //   description: description.value,
+  //   type: type.value,
+  //   image: image.value,
+  //   image_file: imageFile.value
+  // });
+  isLoading.value = false;
+
 
   image.value.src = '';
   imageFile.value = null;

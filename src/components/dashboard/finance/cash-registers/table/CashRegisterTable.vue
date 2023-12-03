@@ -1,7 +1,5 @@
 <template>
     <div>
-
-
         <vue-datatable 
             :key="rows.length"
             :columns="cols" 
@@ -39,17 +37,11 @@
                 </div>
             </template>
 
-            <!-- <template #actions="data">
-                <div>
-                    <ItemsTableActions :data="data.value" :key="data.value.id" />
-                </div>
-            </template> -->
         </vue-datatable>
 
 </div>
 </template>
 <script setup>
-// import ItemsTableActions from './ItemsTableActions.vue';
 import { currency } from '@/config/app';
 import { totalUnits } from '@/utils/cash-register';
 import { ref, computed, defineProps } from 'vue';
