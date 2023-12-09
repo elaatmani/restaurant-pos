@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-4 tw-gap-2">
-        <DashboardCard v-for="card in cards" :key="card.name" :name="card.name" :value="card.value" :icon="card.icon" />
+        <DashboardCard v-for="card in cards" :key="card.name" :card="card" />
     </div>
 
     <div class="tw-mt-3"></div>
@@ -18,33 +18,48 @@ import CashRegister from '@/api/dashboard/CashRegister';
 import useCashStore from '@/stores/dashboard/cashStore';
 import { currency } from "@/config/app";
 import { computed, ref } from 'vue';
+import Dashboard from '@/api/dashboard/Dashboard';
 
 const cashStore = useCashStore();
 const loading = ref(false);
 const cashRegisters = computed(() => cashStore.cashRegisters);
 
-const cards = [
+const params = ref({});
+
+const cards = ref([
     {
         name: 'C.A DU JOUR',
-        value: '602 ' + currency,
-        icon: 'bx:rocket'
+        value: 0,
+        icon: 'bx:rocket',
+        callback: async () => {
+            return Dashboard.ca_off(params)
+            .then( res => res.data.result + ' ' + currency)
+        }
     },
     {
         name: 'R.BRUT DU JOUR',
-        value: '400 ' + currency,
-        icon: 'solar:calculator-broken'
+        value: 0,
+        icon: 'solar:calculator-broken',
+        callback: async () => {
+            return Dashboard.ca_net(params)
+            .then( res => res.data.result + ' ' + currency)
+        }
     },
     {
         name: 'C.A REALISE',
-        value: '1,520 ' + currency,
-        icon: 'streamline:money-cash-bag-dollar-bag-payment-cash-money-finance'
+        value: 0,
+        icon: 'streamline:money-cash-bag-dollar-bag-payment-cash-money-finance',
+        callback: async () => {
+            return Dashboard.ca_gross(params)
+            .then( res => res.data.result + ' ' + currency)
+        }
     },
     {
         name: 'R.BRUT REALISE',
         value: '0 ' + currency,
         icon: 'tabler:brand-cashapp'
     },
-]
+  ]);
 
 const getCashRegisters = async () => {
     loading.value = true;
