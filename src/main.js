@@ -11,6 +11,7 @@ import Popup from '@/components/AppPopup.vue';
 import { createPinia } from 'pinia'
 import alert from './plugins/alert'
 import '@bhplugin/vue3-datatable/dist/style.css'
+import AppPageLoading from '@/components/AppPageLoading'
 
 
 const pinia = createPinia();
@@ -28,5 +29,6 @@ const app = createApp(App);
 
   .component('icon', Icon)
   .component('popup', Popup)
+  .component('page-loading', AppPageLoading)
   .component('vue-datatable', Vue3Datatable)
   .mount('#app')

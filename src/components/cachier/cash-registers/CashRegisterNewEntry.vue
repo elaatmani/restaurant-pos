@@ -158,15 +158,28 @@
 </template>
   
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted, defineProps, defineExpose } from 'vue';
 import useAuthStore from '@/stores/authStore';
 import useCashRegisterStore from '@/stores/cachier/cashRegisterStore';
 import useAlert from '@/composables/useAlert'
 import { totalUnits } from '@/utils/cash-register';
 import CashRegister from '@/api/cashier/CashRegister';
+import Logout from '@/api/auth/Logout';
+
+import router from '@/router';
 
 const authStore = useAuthStore();
 const cashRegisterStore = useCashRegisterStore();
+const props = defineProps({
+    type: {
+        required: false,
+        default: 'in'
+    },
+    closeable: {
+        required: false,
+        default: false
+    },
+});
 
 const visible = ref(false);
 const loading = ref(false);
@@ -187,23 +200,44 @@ const total = computed(() => totalUnits(units));
 const confirm = async () => {
     loading.value = true;
 
-    await CashRegister.create({cash_units: units, register_type: 'in'})
+    await CashRegister.create({cash_units: units, register_type: props.type})
     .then(
-        res => {
-            if(res.data.status == 200) {
+        async res => {
+            if(res.data.status == 200 && props.type == 'in') {
                 authStore.setIsCashRegisterFilled(true);
-                cashRegisterStore.addNewEntry(units);
+                authStore.setCurrentCashRegister(res.data.result);
+                cashRegisterStore.addNewEntry(res.data.result);
+                
                 visible.value = false;
                 useAlert('Fond de caisse est ajouté avec success');
+            }
 
+            if(res.data.status == 200 && props.type == 'out') {
+                authStore.setIsCashRegisterFilled(false);
+                authStore.setCurrentCashRegister(null);
+                await Logout.logout().then(
+                    (res) => {
+                        console.log(res.data)
+                        authStore.logout();
+                        router.push({ name: 'login' });
+                        useAlert('Fond de caisse est ajouté avec success');
+
+                    }
+                )
+                
+                visible.value = false;
             }
         }
     );
     loading.value = false;
 }
 
+defineExpose({
+    visible
+})
+
 onMounted(() => {
-    if(!authStore.isCashRegisterFilled) {
+    if(!authStore.isCashRegisterFilled && props.type == 'in') {
         visible.value = true;
     }
 })

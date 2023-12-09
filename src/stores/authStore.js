@@ -6,6 +6,7 @@ const initialState = {
     isLoggedIn: getFromLocalStorage('isLoggedIn', false),
     user: getFromLocalStorage('user', null),
     isCashRegisterFilled: getFromLocalStorage('isCashRegisterFilled', false),
+    currentCashRegister: getFromLocalStorage('currentCashRegister', {}),
     sessionChecked: false
 }
 
@@ -30,6 +31,8 @@ export default defineStore('authStore', {
         logout() {
             this.setUser(null, false);
             this.setIsCashRegisterFilled(false);
+            this.setCurrentCashRegister(null);
+            deleteAllCookies();
             Cookies.remove('XSRF-TOKEN')
             Cookies.remove('laravel_session')
         },
@@ -41,6 +44,22 @@ export default defineStore('authStore', {
         setIsCashRegisterFilled(value) {
             this.isCashRegisterFilled = value;
             saveInLocalStorage('isCashRegisterFilled', value)
+        },
+        
+        setCurrentCashRegister(value) {
+            this.currentCashRegister = value;
+            saveInLocalStorage('currentCashRegister', value)
         }
     }
 });
+
+function deleteAllCookies() {
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i];
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+}

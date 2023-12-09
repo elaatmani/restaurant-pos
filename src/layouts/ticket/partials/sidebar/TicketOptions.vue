@@ -21,20 +21,18 @@
 import TicketCancel from './TicketCancel.vue';
 import TicketTable from './TicketTable.vue';
 import useTicketStore from '@/stores/ticketStore'
-import useAlertStore from '@/stores/alertStore'
 import { PREPARING } from '@/core/ticket';
+import useAlert from '@/composables/useAlert';
+// import Order from '@/api/dashboard/Order';
 
 const ticketStore = useTicketStore();
-const { toggle: $alert } = useAlertStore();
 
 const prepare = () => {
+    // Order.create()
     ticketStore.addTicket({...ticketStore.currentTicket, status: PREPARING});
     ticketStore.emptyCurrentTicket();
 
-    $alert({
-        type: 'success',
-        body: 'Preparing...'
-    });
+    useAlert('Preparing...', 'info')
 
 }
 

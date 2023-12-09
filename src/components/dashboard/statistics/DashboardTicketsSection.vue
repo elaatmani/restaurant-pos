@@ -9,21 +9,21 @@
                         <span class="tw-text-sm">Sur place</span>
                         <icon icon="grommet-icons:cafeteria" class="tw-text-xl tw-text-gray-600" />
                     </div>
-                    <h1 class="tw-font-bold tw-mt-2 tw-text-xl tw-text-emerald-500">{{ data.nb_tickets_on_site }}</h1>
+                    <h1 class="tw-mt-2 tw-text-xl tw-text-cyan-500">{{ data.nb_tickets_on_site }}</h1>
                 </div>
                 <div class="tw-border tw-border-solid tw-border-gray-200 tw-p-3 tw-flex-1">
                     <div class="tw-flex tw-items-center tw-justify-between tw-gap-1">
                         <span class="tw-text-sm">Livraison</span>
                         <icon icon="ri:takeaway-fill" class="tw-text-xl tw-text-gray-600" />
                     </div>
-                    <h1 class="tw-font-bold tw-mt-2 tw-text-xl tw-text-emerald-500">{{ data.nb_tickets_delivered }}</h1>
+                    <h1 class="tw-mt-2 tw-text-xl tw-text-fuchsia-500">{{ data.nb_tickets_delivered }}</h1>
                 </div>
                 <div class="tw-border tw-border-solid tw-border-gray-200 tw-p-3 tw-flex-1">
                     <div class="tw-flex tw-items-center tw-justify-between tw-gap-1">
                         <span class="tw-text-sm">Emporter</span>
                         <icon icon="grommet-icons:cafeteria" class="tw-text-xl tw-text-gray-600" />
                     </div>
-                    <h1 class="tw-font-bold tw-mt-2 tw-text-xl tw-text-emerald-500">{{ data.nb_tickets_imported }}</h1>
+                    <h1 class="tw-mt-2 tw-text-xl tw-text-amber-500">{{ data.nb_tickets_imported }}</h1>
                 </div>
             </div>
 
@@ -41,14 +41,14 @@
                         <span class="tw-text-sm">Espèces</span>
                         <icon icon="iconoir:hand-cash" class="tw-text-xl tw-text-gray-600" />
                     </div>
-                    <h1 class="tw-font-bold tw-mt-2 tw-text-xl tw-text-emerald-500">{{ data.nb_tickets_on_site }}</h1>
+                    <h1 class="tw-mt-2 tw-text-xl tw-text-green-500">{{ data.nb_tickets_cash }}</h1>
                 </div>
                 <div class="tw-border tw-border-solid tw-border-gray-200 tw-p-3 tw-flex-1">
                     <div class="tw-flex tw-items-center tw-justify-between tw-gap-1">
                         <span class="tw-text-sm">Credit Card</span>
                         <icon icon="bi:credit-card-fill" class="tw-text-xl tw-text-gray-600" />
                     </div>
-                    <h1 class="tw-font-bold tw-mt-2 tw-text-xl tw-text-emerald-500">{{ data.nb_tickets_delivered }}</h1>
+                    <h1 class="tw-mt-2 tw-text-xl tw-text-slate-500">{{ data.nb_tickets_card }}</h1>
                 </div>
         
             </div>

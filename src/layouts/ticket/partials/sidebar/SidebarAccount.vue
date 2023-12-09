@@ -12,7 +12,7 @@
             class="tw-flex tw-justify-center tw-h-full tw-flex-col tw-text-start"
           >
             <span>Bonjour,</span>
-            <span class="tw-text-lg tw-leading-4 tw-font-bold">M. Yassine</span>
+            <span class="tw-text-lg tw-leading-4 tw-font-bold">{{ authStore.user.name }}</span>
           </div>
         </button>
 
@@ -21,14 +21,20 @@
         </router-link>
       </div>
   
-      <div class="tw-w-full tw-bg-green-600 tw-py-1">
-          <p class="tw-text-xs tw-text-white tw-text-center">Caisse ouverte le: Mercredi 16 Août 2023 à 10:59</p>
+      <div v-if="!!currentCashRegister" class="tw-w-full tw-bg-green-600 tw-py-1">
+          <p class="tw-text-xs tw-text-white tw-text-center">Caisse ouverte le: {{ formattedDate }}</p>
       </div>
     </div>
   </template>
   
-  <script>
-  export default {};
+  <script setup>
+  import useAuthStore from '@/stores/authStore';
+  import moment from 'moment';
+  import { computed } from 'vue';
+
+  const authStore = useAuthStore();
+  const currentCashRegister = computed(() => authStore.currentCashRegister);
+  const formattedDate = computed(() => moment(currentCashRegister.value.created_at).locale('fr').format('dddd DD MMMM YYYY [à] HH:mm'))
   </script>
   
   <style>

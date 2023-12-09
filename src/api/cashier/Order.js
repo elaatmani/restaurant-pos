@@ -8,6 +8,11 @@ class Order {
         return Api.get('/api/orders');
     }
 
+    async create(order) {
+        await Csrf.getCookie();
+        return Api.post('/api/orders', order);
+    }
+
 
 }
 

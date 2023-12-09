@@ -9,11 +9,11 @@
             leave-to-class="tw-translate-y-[10px]  tw-opacity-0">
             <div v-if="isActive">
 
-                <div @click="isActive = false"
-                    class="tw-w-[150px] tw-absolute tw-right-0 -tw-bottom-1 tw-py-1 tw-translate-y-full tw-bg-white tw-rounded-lg tw-border tw-border-solid tw-border-gray-200 tw-border-b-2">
-                    <button @click="logout" class="tw-flex tw-items-center tw-gap-2 tw-text-red-600 tw-p-3 tw-py-2 tw-w-full hover:tw-bg-gray-100 tw-duration-200">
-                        <icon class="tw-text-xl" icon="ic:twotone-logout" />
-                        <span class="tw-text-sm">Logout</span>
+                <div
+                    class="tw-w-[190px] tw-absolute tw-right-0 -tw-bottom-1 tw-py-1 tw-translate-y-full tw-bg-white tw-rounded-lg tw-border tw-border-solid tw-border-gray-200 tw-border-b-2">
+                    <button :disabled="loading" @click="logout" :class="[loading && '!tw-text-gray-500']" class="tw-flex tw-items-center tw-gap-2 tw-text-red-600 tw-p-3 tw-py-2 tw-w-full hover:tw-bg-gray-100 tw-duration-200">
+                        <icon class="tw-text-xl" :icon="loading ? 'line-md:loading-twotone-loop' : 'ic:twotone-logout'" />
+                        <span class="tw-text-sm">Se déconnecter</span>
                     </button>
                 </div>
             </div>
@@ -26,18 +26,26 @@ import { ref } from "vue";
 import { onClickOutside } from '@vueuse/core';
 import useAuthStore from "@/stores/authStore";
 import { useRouter } from "vue-router";
+import Logout from "@/api/auth/Logout";
 
 
 
 const isActive = ref(false);
+const loading = ref(false);
 const container = ref(null);
 const router = useRouter();
 const authStore = useAuthStore();
 
-const logout = () => {
-    authStore.logout();
-    router.push({ name: 'login' })
-
+const logout = async () => {
+    loading.value = true;
+    await Logout.logout()
+    .then(
+        () => {
+            authStore.logout();
+            router.push({ name: 'login' })
+        }
+    )
+    loading.value = false;
 }
 
 onClickOutside(container, () => isActive.value = false);
