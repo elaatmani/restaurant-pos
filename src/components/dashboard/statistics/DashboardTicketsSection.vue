@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div class="tw-grid tw-grid-cols-2 tw-gap-2">
+      <div class="tw-grid md:tw-grid-cols-2 tw-gap-2">
         <div>
             <h1>Type de tickets</h1>
             <div v-if="!loadingType" class="tw-mt-3 tw-flex tw-items-center tw-gap-2">
