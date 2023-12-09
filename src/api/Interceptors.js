@@ -2,12 +2,12 @@ import authStore from '@/stores/authStore';
 import useAlert from '@/composables/useAlert';
 import router from '@/router';
 import axios from 'axios';
-import { source } from './Api';
+import { abortController } from './Api';
 
 export const response = (res) => res;
 
 export const request = config => {
-    config.cancelToken = source.token;
+    config.signal = abortController.signal;
 
     return config;
 }
@@ -17,7 +17,7 @@ export const error = (error) => {
     if(error?.response?.status == 401) {
         useAlert('Session Expired!', 'danger')
         authStore().logout();
-        source.cancel('Session Expired');
+        abortController.abort('Session Expired');
         router.push({name: 'login'});
     }
 
