@@ -2,7 +2,9 @@ import authStore from '@/stores/authStore';
 import useAlert from '@/composables/useAlert';
 import router from '@/router';
 import axios from 'axios';
-import { abortController } from './Api';
+
+let abortController = new AbortController();
+
 
 export const response = (res) => res;
 
@@ -18,6 +20,7 @@ export const error = (error) => {
         useAlert('Session Expired!', 'danger')
         authStore().logout();
         abortController.abort('Session Expired');
+        abortController = new AbortController();
         router.push({name: 'login'});
     }
 

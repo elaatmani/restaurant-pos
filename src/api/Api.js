@@ -27,7 +27,6 @@ const ApiForm = createAxiosInstance({
   },
 });
 
-const abortController = new AbortController();
 const attachInterceptors = (apiInstance) => {
   apiInstance.interceptors.request.use(request);
   apiInstance.interceptors.response.use(response, error);
@@ -36,5 +35,5 @@ const attachInterceptors = (apiInstance) => {
 attachInterceptors(Api);
 attachInterceptors(ApiForm);
 
-export { ApiForm, abortController };
+export { ApiForm };
 export default Api;
