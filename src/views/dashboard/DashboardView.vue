@@ -43,12 +43,12 @@ const params = ref({
 const cards = ref([
     {
         name: 'NOUVEAU CLIENTS',
-        value: 0,
+        value: 20,
         icon: 'la:user-alt',
-        callback: async () => {
-            return Dashboard.ca_off(params)
-            .then( res => res.data.result)
-        }
+        // callback: async () => {
+        //     return Dashboard.ca_off(params)
+        //     .then( res => res.data.result)
+        // }
     },
     {
         name: 'C.A DU JOUR',
@@ -56,7 +56,7 @@ const cards = ref([
         icon: 'bx:rocket',
         callback: async () => {
             return Dashboard.ca_off(params)
-            .then( res => res.data.result + ' ' + currency)
+            .then( res => res.data.result.toFixed(2) + ' ' + currency)
         }
     },
     {
@@ -65,7 +65,8 @@ const cards = ref([
         icon: 'solar:calculator-broken',
         callback: async () => {
             return Dashboard.ca_net(params)
-            .then( res => res.data.result + ' ' + currency)
+            .then( res => res.data.result.toFixed(2) + ' ' + currency);
+            
         }
     },
     {
@@ -74,7 +75,7 @@ const cards = ref([
         icon: 'streamline:money-cash-bag-dollar-bag-payment-cash-money-finance',
         callback: async () => {
             return Dashboard.ca_gross(params)
-            .then( res => res.data.result + ' ' + currency)
+            .then( res => res.data.result.toFixed(2) + ' ' + currency)
         }
     },
     {
