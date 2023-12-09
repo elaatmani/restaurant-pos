@@ -14,7 +14,7 @@ export const request = config => {
 
 export const error = (error) => {
     
-    if(error?.response?.code == 401) {
+    if(error?.response?.status == 401) {
         useAlert('Session Expired!', 'danger')
         authStore().logout();
         source.cancel('Session Expired');
