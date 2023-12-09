@@ -3,9 +3,11 @@ import DashboardView from '@/views/dashboard/DashboardView'
 import SettingsView from '@/views/dashboard/settings/SettingsView'
 import UsersView from '@/views/dashboard/users/UsersView'
 import MenuView from '@/views/dashboard/menu/MenuView'
+import OrdersView from '@/views/dashboard/orders/OrdersView'
 import FinanceView from '@/views/dashboard/finance/FinanceView';
 import ItemCreateView from '@/views/dashboard/menu/items/ItemCreateView'
 import ItemUpdateView from '@/views/dashboard/menu/items/ItemUpdateView'
+
 
 export default [{
     path: '/dashboard',
@@ -42,6 +44,17 @@ export default [{
             path: 'cash',
             name: 'dashboard.finance',
             component: FinanceView
+        },
+
+        {
+            path: 'orders',
+            children: [
+                {
+                    name: 'dashboard.orders',
+                    path: '',
+                    component: OrdersView
+                }
+            ]
         },
 
         {
