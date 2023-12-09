@@ -1,23 +1,42 @@
-import axios from 'axios'
-import { backendUrl } from '@/config/app'
-import { error, response } from './Interceotors';
+import axios from 'axios';
+import { backendUrl } from '@/config/app';
+import { error, response, request } from './Interceptors';
 
-const Api = axios.create({
+const createAxiosInstance = (config) => {
+  const instance = axios.create({
     baseURL: backendUrl,
+    ...config,
+  });
+
+  instance.defaults.withCredentials = true;
+
+  return instance;
+};
+
+const Api = createAxiosInstance({
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
 });
 
-const ApiForm = axios.create({
-    baseURL: backendUrl,
+const ApiForm = createAxiosInstance({
+  headers: {
+    'Content-Type': 'multipart/form-data',
+    Accept: 'application/json',
+  },
 });
 
-Api.interceptors.response.use(response, error)
-ApiForm.interceptors.response.use(response, error)
+const CancelToken = axios.CancelToken;
+const source = CancelToken.source();
 
-ApiForm.defaults.withCredentials = true;
-ApiForm.defaults.headers = { 'Content-Type': 'multipart/form-data', 'Accept': 'application/json' };
+const attachInterceptors = (apiInstance) => {
+  apiInstance.interceptors.request.use(request);
+  apiInstance.interceptors.response.use(response, error);
+};
 
-Api.defaults.withCredentials = true;
-Api.defaults.headers = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
+attachInterceptors(Api);
+attachInterceptors(ApiForm);
 
-export { ApiForm };
+export { ApiForm, source };
 export default Api;
