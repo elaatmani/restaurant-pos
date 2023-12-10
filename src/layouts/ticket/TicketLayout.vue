@@ -1,5 +1,5 @@
 <template>
-    <v-layout :full-height="true" class="rounded rounded-md">
+    <v-layout v-if="store.isLoggedIn" :full-height="true" class="rounded rounded-md">
       
       <ticket-layout-sidebar />  
   
@@ -10,8 +10,11 @@
   </template>
   
   <script setup>
-  import TicketLayoutSidebar from './partials/TicketLayoutSidebar';
+  import authStore from '@/stores/authStore';
+import TicketLayoutSidebar from './partials/TicketLayoutSidebar';
   
+  const store = authStore();
+
   </script>
   
   <style>

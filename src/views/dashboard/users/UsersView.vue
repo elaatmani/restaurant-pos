@@ -14,34 +14,29 @@
 
 </template>
 <script setup>
+import User from '@/api/dashboard/User';
 import UsersTable from '@/components/dashboard/users/table/UsersTable'
 import UsersCreate from '@/components/dashboard/users/UsersCreate';
 import useStore from '@/stores/dashboard/userStore';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 
 const store = useStore();
 const loading = ref(true);
 
 const users = computed(() => store.users);
 
-const getUsers = () => {
+const getUsers = async () => {
     loading.value = true;
-    const users = [
-        {
-            id: 1,
-            name: 'Yassine',
-            email: 'yassine@gmail.com',
-            role: 'Admin'
+    await User.all()
+    .then(
+        res => {
+            if(res.data.status == 200) {
+                store.setUsers(res.data.result);
+            }
         }
-    ]
-
-    setTimeout(() => {
-        store.setUsers(users);
-        loading.value = false;
-    }, 3000) 
+    );
+    loading.value = false;
 }
 
-onMounted(() => {
-    getUsers();
-})
+getUsers();
 </script>

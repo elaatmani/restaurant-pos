@@ -1,5 +1,5 @@
 <template>
-    <div class="tw-grid tw-grid-cols-1 tw-border-b tw-divide-x tw-text-sm tw-sticky  tw-top-[60px] tw-bg-white">
+    <div class="tw-grid tw-grid-cols-1 tw-border-b tw-border-gray-200 tw-divide-x tw-text-sm tw-sticky  tw-top-[60px] tw-bg-white">
               <!-- <div class="tw-col-span-1 tw-flex tw-flex-col tw-gap-1 tw-p-2">
                   <span>Serveur</span>
                   <span>...</span>

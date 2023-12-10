@@ -1,5 +1,5 @@
 <template>
-  <v-layout :full-height="true" class="rounded rounded-md">
+  <v-layout v-if="store.isLoggedIn" :full-height="true" class="rounded rounded-md">
 
     <DashboardSidebar v-model:drawer="drawer" />
     
@@ -15,10 +15,11 @@
 <script setup>
 import DashboardHeader from './partials/DashboardHeader';
 import DashboardSidebar from './partials/DashboardSidebar';
+import authStore from '@/stores/authStore';
 import { ref } from 'vue';
 
 const drawer = ref(true);
-
+const store = authStore();
 
 </script>
 

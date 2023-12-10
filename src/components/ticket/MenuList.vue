@@ -4,7 +4,9 @@
         :class="['xl:tw-grid-cols-6 lg:tw-grid-cols-5 md:tw-grid-cols-3 sm:tw-grid-cols-3 tw-grid-cols-2 ']"
         class="tw-grid tw-gap-5 ">
 
-            <MenuListItem :item="item" v-for="item in items" :key="item.id" />
+            <!-- <MenuListItem :item="item" v-for="item in items" :key="item.id" /> -->
+
+            <MenuListItem :menu="menu" v-for="menu in props.menus" :key="menu.id" />
 
       </div>
 
@@ -12,14 +14,20 @@
   </div>
 </template>
 
-<script>
-import MenuListItem from './MenuListItem.vue'
-export default {
-  components: { MenuListItem },
+<script setup>
+import MenuListItem from './MenuListItem.vue';
+import { ref, defineProps } from 'vue';
 
-    data() {
-        return {
-            items: [
+const props = defineProps({
+    menus: {
+        required: true,
+        default: []
+    }
+});
+
+console.log(props.menus)
+
+const items = ref([
                 {
                     id: 1,
                     name: 'Pizza',
@@ -73,12 +81,8 @@ export default {
                     menu_items: []
                 },
 
-            ]
-        }
-    },
-
-
-}
+            ]);
+items;
 </script>
 
 <style scoped>

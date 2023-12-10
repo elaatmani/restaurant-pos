@@ -1,5 +1,5 @@
 <template>
-    <div class="tw-border-b">
+    <div class="tw-border-b tw-border-gray-200">
       
       <div class="tw-p-3 tw-flex tw-items-center tw-justify-between">
         <button class="tw-flex tw-items-center tw-gap-2">
@@ -16,7 +16,7 @@
           </div>
         </button>
 
-        <router-link :to="{name: 'cachier.index'}" class="tw-flex tw-items-center tw-justify-center tw-border tw-border-solid tw-rounded-md tw-p-2">
+        <router-link :to="{name: 'cachier.index'}" class="tw-flex tw-items-center tw-border-gray-200 tw-justify-center tw-border tw-border-solid tw-rounded-md tw-p-2">
             <icon class="tw-text-xl" icon="icon-park-outline:return" />
         </router-link>
       </div>

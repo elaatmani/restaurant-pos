@@ -5,6 +5,8 @@ import dashboard from './routes/dashboard';
 
 // middleware
 import authMiddleware from './middleware/auth.middleware';
+import adminMiddleware from './middleware/admin.middleware';
+import cashierMiddleware from './middleware/cashier.middleware';
 
 import HomeView from '@/views/HomeView.vue';
 import LoginView from '@/views/auth/LoginView.vue';
@@ -13,7 +15,10 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta: {
+      middleware: ['auth']
+    }
   },
   {
     path: '/login',
@@ -34,5 +39,7 @@ const router = createRouter({
 });
 
 router.beforeEach(authMiddleware)
+router.beforeEach(adminMiddleware)
+router.beforeEach(cashierMiddleware)
 
 export default router

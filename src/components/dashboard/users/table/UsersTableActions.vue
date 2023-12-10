@@ -12,6 +12,4 @@ import UsersTableActionsDelete from './UsersTableActionsDelete'
 import { defineProps } from 'vue';
 
 const props = defineProps(['data']);
-
-console.log(props.data)
 </script>

@@ -3,7 +3,7 @@ export default (ticket) => {
 
     ticket.items.forEach(i => {
         // if(ticket.mode == 1) {
-            total += (i.menu_item.price * i.quantity);
+            total += (parseFloat(i.menu_item_variation.item_price) * parseInt(i.quantity));
         // }
 
     })

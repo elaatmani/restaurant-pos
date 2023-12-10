@@ -13,12 +13,15 @@
                         <div class="sm:tw-col-span-2">
                             <label for="role"
                                 class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900 dark:tw-text-white">Rôle</label>
-                            <select v-model="user.role" id="role"
-                                class="tw-bg-gray-50 tw-border tw-border-solid focus:tw-outline-none tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-primary-600 focus:tw-border-primary-600 tw-block tw-w-full tw-p-2.5 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            <select v-if="isRolesFetched" v-model="user.role" id="role"
+                                class="tw-bg-gray-50 tw-border tw-uppercase tw-border-solid focus:tw-outline-none tw-border-gray-300 tw-text-gray-900 tw-text-sm tw-rounded-lg focus:tw-ring-primary-600 focus:tw-border-primary-600 tw-block tw-w-full tw-p-2.5 dark:tw-bg-gray-700 dark:tw-border-gray-600 dark:tw-placeholder-gray-400 dark:tw-text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Tapez le nom d'utilisateur">
-                                <option value="" disabled>Choisi un rôle</option>
-                                <option value="cachier">Caissier</option>
+                                <option value="" selected disabled>Choisi un rôle</option>
+                                <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
                             </select>
+                            <div v-else class="tw-h-[30px]">
+                                Loading...
+                            </div>
                             <span v-if="errors.role" class="tw-text-rose-500 tw-text-xs tw-font-semibold">{{ errors.role }}</span>
                         </div>
 
@@ -83,32 +86,46 @@
 import { ref, reactive } from "vue";
 import useAlert from '@/composables/useAlert';
 import useStore from '@/stores/dashboard/userStore'
+import Role from "@/api/dashboard/Role";
+import User from "@/api/dashboard/User";
 
 const store = useStore();
 const visible = ref(false);
 const isLoading = ref(false);
+const roles = ref([])
+const isRolesFetched = ref(false);
 const user = reactive({
     name: '',
     email: '',
     password: '',
-    role: ''
+    role: null
 });
 
 const errors = reactive({});
 
-const create = () => {
+const create = async () => {
     if(!isValid()) return false;
 
     isLoading.value = true;
-    setTimeout(() => {
-        isLoading.value = false;
-        visible.value = false;
-        const id = Date.now().toString();
-
-        store.addUser({...user, id: id.substring(id.length - 4)});
-        useAlert('Utilisateur a été ajouté avec success');
-        clear();
-    }, 3000)
+    await User.create(user)
+    .then(
+        res => {
+            if(res.data.status == 200) {
+                store.addUser(res.data.result);
+                useAlert('Utilisateur a été ajouté avec success');
+                clear();
+                visible.value = false;
+            }
+        },
+        err => {
+            if(err?.response?.data?.errors) {
+                for (const e in err?.response?.data?.errors) {
+                    errors[e] = err?.response?.data?.errors[e][0];
+                }
+            }
+        }
+    )
+    isLoading.value = false;
 }
 
 const isValid = () => {
@@ -136,7 +153,6 @@ const isValid = () => {
         && !!user.email 
         && !!user.name 
         && !!user.role
-
 }
 
 const cancel = () => {
@@ -152,4 +168,19 @@ const clear = () => {
     Object.keys(errors).forEach(k => errors[k] = '');
     Object.keys(user).forEach(k => user[k] = '');
 }
+
+const getRoles = async () => {
+    isRolesFetched.value = false;
+    await Role.all()
+    .then(
+        res => {
+            if(res.data.status == 200) {
+                roles.value = res.data.result;
+            }
+        }
+    )
+    isRolesFetched.value = true;
+}   
+
+getRoles();
 </script>

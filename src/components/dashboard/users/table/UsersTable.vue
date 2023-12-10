@@ -16,6 +16,14 @@
                     <UsersTableActions :data="data.value" :key="data.value.id" />
                 </div>
             </template>
+
+            <template #role="data">
+                <div 
+                    :class="[data.value.roles?.find(r => r.id)?.name == 'admin' ? 'tw-text-fuchsia-500 tw-bg-fuchsia-100' : 'tw-text-cyan-500 tw-bg-cyan-100' ]"
+                class="tw-uppercase tw-text-xs tw-font-semibold tw-w-fit tw-text-center tw-mx-auto tw-px-2 tw-py-1">
+                    {{ data.value.roles?.find(r => r.id)?.name  }}
+                </div>
+            </template>
         </vue-datatable>
 
 </div>

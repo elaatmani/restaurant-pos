@@ -25,7 +25,13 @@ const success = (res, app) => {
     const authStore = useAuthStore();
     const user = data.result;
     authStore.setUser(user, true);
-    app.$router.push({name: 'cachier.index'});
+    if(user.roles?.some(r => r.name == 'cashier')) {
+        app.$router.push({name: 'cachier.index'});
+    }
+
+    if(user.roles?.some(r => r.name == 'admin')) {
+        app.$router.push({name: 'dashboard'});
+    }
 }
 
 

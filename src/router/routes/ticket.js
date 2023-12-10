@@ -8,7 +8,7 @@ export default [
         component: TicketLayout,
         path: '/ticket',
         meta: {
-            middleware: ['auth'],
+            middleware: ['auth', 'cashier'],
         },
 
         children: [

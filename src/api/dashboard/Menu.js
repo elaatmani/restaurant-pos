@@ -10,7 +10,14 @@ class Menu {
 
     async update(id, menu) {
         await Csrf.getCookie();
-        return ApiForm.patch('/api/menus/' + id, menu);
+        const formData = new FormData();
+
+        for(let key in menu) {
+            formData.append(key, menu[key])
+        }
+        return Api.post('/api/menus/' + id, formData, { headers: {
+            'Content-Type': 'multipart/form-data'
+          }});
     }
     
     async menus() {

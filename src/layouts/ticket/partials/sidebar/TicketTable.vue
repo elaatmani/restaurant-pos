@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="showPopup = true" class="tw-py-1 tw-px-0 tw-gap-1 tw-border-solid tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-bg-gray-50 tw-duration-200">
+    <button @click="showPopup = true" class="tw-py-1 tw-px-0 tw-gap-1 tw-border-solid tw-border-gray-200 tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-bg-gray-50 tw-duration-200">
         <icon class="tw-text-gray-500 tw-text-2xl" icon="mingcute:transfer-fill" />
         <span class="tw-text-xs">Transfére de table</span>
     </button>

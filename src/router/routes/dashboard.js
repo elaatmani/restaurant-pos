@@ -4,6 +4,7 @@ import SettingsView from '@/views/dashboard/settings/SettingsView'
 import UsersView from '@/views/dashboard/users/UsersView'
 import MenuView from '@/views/dashboard/menu/MenuView'
 import OrdersView from '@/views/dashboard/orders/OrdersView'
+import TablesView from '@/views/dashboard/tables/TablesView'
 import FinanceView from '@/views/dashboard/finance/FinanceView';
 import ItemCreateView from '@/views/dashboard/menu/items/ItemCreateView'
 import ItemUpdateView from '@/views/dashboard/menu/items/ItemUpdateView'
@@ -13,7 +14,7 @@ export default [{
     path: '/dashboard',
     component: DashboardLayout,
     meta: {
-        middleware: ['auth'],
+        middleware: ['auth', 'admin'],
     },
     children: [
         {
@@ -71,6 +72,17 @@ export default [{
                     path: ':id/edit',
                     component: ItemUpdateView
                 }
+            ]
+        },
+
+        {
+            path: 'tables',
+            children: [
+                {
+                    name: 'dashboard.tables',
+                    path: '',
+                    component: TablesView
+                },
             ]
         }
 

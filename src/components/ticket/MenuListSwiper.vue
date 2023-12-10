@@ -11,7 +11,7 @@
               <div  class="tw-w-full tw-overflow-hidden tw-h-full tw-flex-1">
                   <div class="tw-grid tw-grid-cols-3 md:tw-grid-cols-4 lg:tw-grid-cols-5 tw-gap-5">
                       <div v-for="mi in paginateItems(i)" :key="mi.id" >
-                          <menu-list-swiper-item @cancel="$emit('cancel')" :menu-item="mi" :item="item"  />
+                          <menu-list-swiper-item @cancel="$emit('cancel')" :menu-item="mi" :menu="menu"  />
                       </div>
                       </div>
               </div>
@@ -48,7 +48,7 @@
       },
   
       props: {
-          item: {
+          menu: {
               required: true,
           },
           items: {

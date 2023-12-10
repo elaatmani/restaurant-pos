@@ -1,8 +1,9 @@
-export const NEW = "new";
-export const PREPARING = "preparing";
-export const COMPLETED = "completed";
-export const NOT_PAID = "not_paid";
-export const PAID = "paid";
+export const NEW = "NEW";
+export const PREPARING = "PREPARING";
+export const PENDING = "PENDING";
+export const COMPLETED = "COMPLETED";
+export const NOT_PAID = "RETURNED";
+export const PAID = "PAID";
 
 export const NEW_TICKET = {
     items: [],

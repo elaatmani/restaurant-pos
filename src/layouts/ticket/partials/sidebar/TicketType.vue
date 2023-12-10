@@ -1,5 +1,5 @@
 <template>
-    <div class="tw-p-2 tw-w-full tw-sticky  tw-top-0 tw-bg-white tw-border-b">
+    <div class="tw-p-2 tw-w-full tw-sticky  tw-top-0 tw-bg-white tw-border-b tw-border-gray-200">
         <div class="tw-grid tw-grid-cols-3 tw-p-1 tw-bg-gray-100 tw-rounded tw-gap-1">
             <button 
             @click="type = 1"

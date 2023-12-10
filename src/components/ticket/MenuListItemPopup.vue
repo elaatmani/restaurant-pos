@@ -8,7 +8,7 @@
                   <icon icon="mdi:close" class="tw-text-xl" />
               </button>
   
-              <menu-list-swiper @cancel="$emit('update:visible', false)" :items="item.menu_items" :item="item" />
+              <menu-list-swiper @cancel="$emit('update:visible', false)" :items="menu.items" :menu="menu" />
           </div>
       </popup>
     </div>
@@ -23,7 +23,7 @@
               required: true,
           },
   
-          item: {
+          menu: {
               required: true
           }
       }

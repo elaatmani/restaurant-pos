@@ -7,7 +7,7 @@
         <popup :closeable="!loading" :visible="visible" @cancel="visible = false">
             <div
                 class="tw-relative tw-max-w-[450px] tw-w-full tw-bg-white tw-overflow-hidden tw-rounded-md tw-mx-auto tw-border tw-border-solid tw-border-gray-400">
-                <h1 class="tw-text-lg tw-font-semibold tw-p-5 tw-bg-gray-100">Vous êtes sûr de vouloir supprimer ce utilisateur ?</h1>
+                <h1 class="tw-text-lg tw-font-semibold tw-p-5 tw-bg-gray-100">Vous êtes sûr de vouloir supprimer cette table ?</h1>
 
                 <div class="tw-flex tw-justify-end tw-items-center tw-col-span-12 tw-gap-2 tw-p-5 ">
                     <button @click="visible = false" type="button"
@@ -28,25 +28,30 @@
 <script setup>
 import { ref, defineProps } from 'vue';
 import useAlert from '@/composables/useAlert'
-import userStore from '@/stores/dashboard/userStore';
-import User from '@/api/dashboard/User';
+import useTableStore from '@/stores/dashboard/tableStore';
+import Table from '@/api/dashboard/Table'
 
 const props =  defineProps(['data']);
 const loading = ref(false);
 const visible = ref(false);
-const store = userStore();
+const store = useTableStore();
 
 
 const destroy = async () => {
-    loading.value = true;
-        await User.delete(props.data.id)
-        .then(
-            res => {
-                if(res.data.status == 200) {
-                    store.deleteUser(props.data.id);
-                    visible.value = false;
-                    useAlert('Utilisateur a été supprimé');
+    loading.value = true
+
+    await Table.delete(props.data.id)
+    .then(
+        res => {
+            if(res.data.status == 200) {
+                store.deleteTable(props.data.id);
+                useAlert('Table a été supprimé');
+                visible.value = false;
             }
+        },
+        err => {
+            useAlert('Something went wrong', 'danger');
+            console.log(err)
         }
     )
     loading.value = false;

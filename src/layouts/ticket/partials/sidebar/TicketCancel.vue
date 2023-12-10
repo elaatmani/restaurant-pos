@@ -4,7 +4,7 @@
         <icon class="tw-text-red-500 tw-text-2xl" icon="mdi:cancel-circle" />
         <span class="tw-text-xs">Annuler</span>
     </button> -->
-    <button @click="showPopup = true" class="tw-h-full tw-py-1 tw-w-full tw-px-0 tw-gap-1 tw-border-solid tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-bg-gray-50 tw-duration-200">
+    <button @click="showPopup = true" class="tw-h-full tw-border-r tw-border-gray-200 tw-py-1 tw-w-full tw-px-0 tw-gap-1 tw-border-solid tw-flex tw-flex-col tw-items-center tw-justify-center hover:tw-bg-gray-50 tw-duration-200">
         <icon class="tw-text-red-500 tw-text-2xl" icon="mdi:cancel-circle" />
         <span class="tw-text-xs">Annuler</span>
     </button>

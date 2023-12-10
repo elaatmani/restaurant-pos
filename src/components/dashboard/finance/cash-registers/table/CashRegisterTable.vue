@@ -54,7 +54,7 @@ const cols = ref([
             { field: 'amount', title: 'Montant' },
             { field: 'type', title: 'Type' },
             { field: 'by', title: 'Par' },
-            { field: 'role', title: 'Role' },
+            // { field: 'role', title: 'Role' },
             { field: 'created_at', title: 'Créé à' },
             { field: 'actions', title: '', sort: false, width: "60px" },
         ]) || [];

@@ -12,6 +12,7 @@
           <v-list-item prepend-icon="mdi-ticket-confirmation" title="Ordres" :to="{ name: 'dashboard.orders' }"></v-list-item>
           <v-list-item prepend-icon="mdi-cash-register" title="Finance" :to="{ name: 'dashboard.finance' }"></v-list-item>
           <v-list-item prepend-icon="mdi-food" title="Menu" :to="{ name: 'dashboard.menu' }"></v-list-item>
+          <v-list-item prepend-icon="mdi-table-chair" title="Tables" :to="{ name: 'dashboard.tables' }"></v-list-item>
           <v-list-item prepend-icon="mdi-account-multiple" title="Utilisateurs" :to="{ name: 'dashboard.users' }" link></v-list-item>
           <v-list-item prepend-icon="mdi-cog" title="Paramétres" :to="{ name: 'dashboard.settings' }" link></v-list-item>
         </v-list>

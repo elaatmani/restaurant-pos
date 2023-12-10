@@ -12,7 +12,7 @@
 
                 <form action="#">
                     <div class="tw-grid tw-gap-4 sm:tw-grid-cols-2 sm:tw-gap-3">
-                        <div class="sm:tw-col-span-2">
+                        <!-- <div class="sm:tw-col-span-2">
                             <label for="role"
                                 class="tw-block tw-mb-2 tw-text-sm tw-font-medium tw-text-gray-900 dark:tw-text-white">Rôle</label>
                             <select v-model="user.role" id="role"
@@ -22,7 +22,7 @@
                                 <option value="cachier">Caissier</option>
                             </select>
                             <span v-if="errors.role" class="tw-text-rose-500 tw-text-xs tw-font-semibold">{{ errors.role }}</span>
-                        </div>
+                        </div> -->
 
                         <div class="sm:tw-col-span-2">
                             <label for="name"
@@ -90,6 +90,7 @@
 import { ref, reactive, defineProps } from "vue";
 import useAlert from '@/composables/useAlert';
 import useStore from '@/stores/dashboard/userStore'
+import User from "@/api/dashboard/User";
 
 const props = defineProps(['data']);
 const store = useStore();
@@ -104,17 +105,23 @@ let user = reactive({
 
 const errors = reactive({});
 
-const update = () => {
+const update = async () => {
     if(!isValid()) return false;
-
     isLoading.value = true;
-    setTimeout(() => {
-        
-        store.updateUser(props.data.id, user);
-        useAlert('Utilisateur a été modifié avec success');
-        isLoading.value = false;
-        visible.value = false;
-    }, 3000)
+    if(user.password) {
+        user.password_confirmation = user.password;
+    }
+    await User.update(user.id, user)
+    .then(
+        res => {
+            if(res.data.status == 200) {
+                store.updateUser(props.data.id, res.data.result);
+                useAlert('Utilisateur a été modifié avec success');
+                visible.value = false;
+            }
+        }
+    )
+    isLoading.value = false;
 }
 
 const isValid = () => {
@@ -129,19 +136,9 @@ const isValid = () => {
         errors.email = 'this field is required !';
     }
 
-    if(!user.role) {
-        errors.role = 'this field is required !';
-    }
 
-    if(!user.password) {
-        errors.password = 'this field is required !';
-    }
-
-
-    return !!user.password 
-        && !!user.email 
+    return !!user.email 
         && !!user.name 
-        && !!user.role
 
 }
 
@@ -151,6 +148,7 @@ const cancel = () => {
 
 const show = () => {
     user = reactive(JSON.parse(JSON.stringify(props.data))) 
+    user.role = user.roles?.map(r => r.id);
     visible.value = true
 };
 

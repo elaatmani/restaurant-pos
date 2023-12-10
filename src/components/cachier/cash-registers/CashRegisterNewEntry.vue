@@ -213,12 +213,11 @@ const confirm = async () => {
             }
 
             if(res.data.status == 200 && props.type == 'out') {
-                authStore.setIsCashRegisterFilled(false);
-                authStore.setCurrentCashRegister(null);
                 await Logout.logout().then(
-                    (res) => {
-                        console.log(res.data)
+                    () => {
                         authStore.logout();
+                        authStore.setIsCashRegisterFilled(false);
+                        authStore.setCurrentCashRegister(null);
                         router.push({ name: 'login' });
                         useAlert('Fond de caisse est ajouté avec success');
 

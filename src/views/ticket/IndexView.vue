@@ -3,7 +3,7 @@
     <page-loading v-if="loading" />
 
   <div v-else class="tw-p-5">
-    <menu-list />
+    <menu-list :menus="menus" />
   </div>
 </template>
 
@@ -11,10 +11,11 @@
 import MenuList from '@/components/ticket/MenuList.vue';
 import Menu from '@/api/cashier/Menu';
 import useMenuStore from '@/stores/cachier/menuStore';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const loading = ref(false);
 const menuStore = useMenuStore();
+const menus = computed(() => menuStore.menus)
 
 const getData = async () => {
   loading.value = true;
